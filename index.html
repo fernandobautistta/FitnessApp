@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fitness App</title>
+    <
+    <!-- Tailwind CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <link href="./font/css/fontawesome.css" rel="stylesheet">
+    <link href="./font/css/solid.css" rel="stylesheet">
+    <link href="./font/css/regular.css" rel="stylesheet">
+  </head>
+  <body>
+    <main>
+      <!-- AQUI IRA SOLO LA PRESENTACION DEL MODELO, EL HERO ETC -->
+      <aside
+        id="default-sidebar"
+        class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0"
+        aria-label="Sidebar"
+      >
+        <div
+          class="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800"
+        >
+          <ul class="space-y-2 font-medium">
+            <li>
+              <a
+                href="/"
+                class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group gap-4 justify-between"
+              >
+                <i class="fa-solid fa-spa"></i>
+                <span class="flex-1 ms-3">Fitness App</span>
+              </a>
+            </li>
+            <li>
+              <a
+                href="#"
+                class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group gap-4 justify-between"
+              >
+                <i class="fa-solid fa-sitemap"></i>
+                <span class="flex-1 ms-3 whitespace-nowrap">Presentación</span>
+              </a>
+            </li>
+            <li>
+              <a
+                href="#"
+                class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group gap-5 justify-between"
+              >
+                <i class="fa-solid fa-code-branch"></i>
+                <span class="flex-1 ms-3 whitespace-nowrap">Aplicativo</span>
+                <span
+                  class="inline-flex items-center justify-center px-2 ms-3 text-sm font-medium text-gray-800 bg-gray-100 rounded-full dark:bg-gray-700 dark:text-gray-300"
+                  >Model AI</span
+                >
+              </a>
+            </li>
+          </ul>
+        </div>
+      </aside>
+      <!-- AQUI IRA EL APLICATIVO DEL MODELO DE MEDIAPIPE -->
+      <div class="p-4 sm:ml-64">
+        <div
+          class="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700"
+        >
+          <div
+            class="flex items-center justify-center h-80 mb-4 rounded bg-gray-50 dark:bg-gray-800"
+          >
+            <p class="text-2xl text-gray-40 0 dark:text-gray-500">
+              Aqui va la camara
+            </p>
+          </div>
+          <div class="grid grid-cols-2 gap-4 mb-4">
+            <div
+              class="flex items-center justify-center rounded bg-gray-50 h-28 dark:bg-gray-800"
+            >
+              <p class="text-2xl text-gray-400 dark:text-gray-500">Center</p>
+            </div>
+            <div
+              class="flex items-center justify-center rounded bg-gray-50 h-28 dark:bg-gray-800"
+            >
+              <p class="text-2xl text-gray-400 dark:text-gray-500">Center</p>
+            </div>
+            <div
+              class="flex items-center justify-center rounded bg-gray-50 h-28 dark:bg-gray-800"
+            >
+              <p class="text-2xl text-gray-400 dark:text-gray-500">Center</p>
+            </div>
+            <div
+              class="flex items-center justify-center rounded bg-gray-50 h-28 dark:bg-gray-800"
+            >
+              <p class="text-2xl text-gray-400 dark:text-gray-500">Center</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>
