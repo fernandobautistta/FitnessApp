@@ -19,15 +19,24 @@ function zColor(data) {
   return `rgba(0, ${255 * z}, ${255 * (1 - z)}, 1)`;
 }
 
-function calculateAngle(a, b, c) {
-  const angleRad = Math.atan2(c.y - b.y, c.x - b.x) - Math.atan2(a.y - b.y, a.x - b.x);
-  let angleDeg = Math.abs((angleRad * 180.0) / Math.PI);
+function calcularAngulo(a, b, c) {
+  // Convierte las coordenadas a vectores
+  const vectorA = [a[0], a[1]];
+  const vectorB = [b[0], b[1]];
+  const vectorC = [c[0], c[1]];
 
-  if (angleDeg > 180.0) {
-    angleDeg = 360 - angleDeg;
+  // Calcula los ángulos en radianes
+  const radianes = Math.atan2(vectorC[1] - vectorB[1], vectorC[0] - vectorB[0]) - Math.atan2(vectorA[1] - vectorB[1], vectorA[0] - vectorB[0]);
+
+  // Convierte los radianes a grados
+  let angulo = Math.abs((radianes * 180.0) / Math.PI);
+
+  // Ajusta el ángulo si es mayor a 180 grados
+  if (angulo > 180.0) {
+      angulo = 360 - angulo;
   }
 
-  return angleDeg;
+  return angulo;
 }
 
 function onResultsPose(results) {
@@ -84,9 +93,9 @@ function onResultsPose(results) {
 
 
 
-  const angleLeft = calculateAngle(hombro_izq, codo_izq, muñeca_izq);
-  const angleRight = calculateAngle(hombro_der, codo_der, muñeca_der);
-
+  const angleLeft = calcularAngulo(hombro_izq, codo_izq, muñeca_izq);
+  const angleRight = calcularAngulo(hombro_der, codo_der, muñeca_der);
+  console.log(angleLeft)
   // Realizar acciones basadas en los ángulos
   if (angleRight > 160 && angleLeft > 160) {
     // Realizar acciones cuando ambos ángulos son mayores a 160
