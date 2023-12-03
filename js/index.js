@@ -1,4 +1,5 @@
-// https://github.com/googlecreativelab/teachablemachine-community/tree/master/libraries/pose
+
+    const levantamiento = document.getElementById("levantamiento")
 
     // the link to your model provided by Teachable Machine export panel
     let model, webcam, ctx, labelContainer, maxPredictions;
@@ -49,7 +50,19 @@
         for (let i = 0; i < maxPredictions; i++) {
             const classPrediction = prediction[i].className + ": -------> " + prediction[i].probability.toFixed(2);
             
-            console.log(classPrediction)
+            if(prediction[i].probability.toFixed(2) > 0.99) {
+                
+                /**
+                 * ? Modelo basado en levantamiento -> Parte Luis
+                 * @prediction.probability es el treshold manual
+                 */
+
+                if(state!==prediction[i].className && prediction[i].className!=='down'){
+                    contador++;
+                    levantamiento.innerText = contador
+                }
+                state = prediction[i].className
+            }
         }
 
         // finally draw the poses
