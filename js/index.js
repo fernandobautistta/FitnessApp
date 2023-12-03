@@ -1,12 +1,11 @@
 // https://github.com/googlecreativelab/teachablemachine-community/tree/master/libraries/pose
 
     // the link to your model provided by Teachable Machine export panel
-    const URL = "./js/train/ex_1/";
     let model, webcam, ctx, labelContainer, maxPredictions;
-    let state =false;
+    let state='Abajo';
     let contador = 0;
 
-    async function init() {
+    async function init(URL) {
         const modelURL = URL + "model.json";
         const metadataURL = URL + "metadata.json";
 
@@ -49,7 +48,8 @@
 
         for (let i = 0; i < maxPredictions; i++) {
             const classPrediction = prediction[i].className + ": -------> " + prediction[i].probability.toFixed(2);
-            console.log(prediction[i].className ==='Arriba' ? classPrediction : '')
+            
+            console.log(classPrediction)
         }
 
         // finally draw the poses
