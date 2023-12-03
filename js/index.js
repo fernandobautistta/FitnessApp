@@ -1,162 +1,69 @@
-const video5 = document.getElementsByClassName('input_video5')[0];
-const out5 = document.getElementsByClassName('output5')[0];
-const controlsElement5 = document.getElementsByClassName('control5')[0];
-const canvasCtx5 = out5.getContext('2d');
+// https://github.com/googlecreativelab/teachablemachine-community/tree/master/libraries/pose
 
-const fpsControl = new FPS();
+    // the link to your model provided by Teachable Machine export panel
+    const URL = "./js/train/ex_1/";
+    let model, webcam, ctx, labelContainer, maxPredictions;
+    let state =false;
+    let contador = 0;
 
-const spinner = document.querySelector('.loading');
-spinner.ontransitionend = () => {
-  spinner.style.display = 'none';
-};
+    async function init() {
+        const modelURL = URL + "model.json";
+        const metadataURL = URL + "metadata.json";
 
-// Declarar e inicializar variables
-let stage = 'arriba';
-let contador = 0;
+        // load the model and metadata
+        // Refer to tmImage.loadFromFiles() in the API to support files from a file picker
+        // Note: the pose library adds a tmPose object to your window (window.tmPose)
+        model = await tmPose.load(modelURL, metadataURL);
+        maxPredictions = model.getTotalClasses();
 
-function zColor(data) {
-  const z = clamp(data.from.z + 0.5, 0, 1);
-  return `rgba(0, ${255 * z}, ${255 * (1 - z)}, 1)`;
-}
+        // Convenience function to setup a webcam
+        const size = 200;
+        const flip = true; // whether to flip the webcam
+        webcam = new tmPose.Webcam(size, size, flip); // width, height, flip
+        await webcam.setup(); // request access to the webcam
+        await webcam.play();
+        window.requestAnimationFrame(loop);
 
-function calcularAngulo(a, b, c) {
-  // Convierte las coordenadas a vectores
-  const vectorA = [a[0], a[1]];
-  const vectorB = [b[0], b[1]];
-  const vectorC = [c[0], c[1]];
-
-  // Calcula los ángulos en radianes
-  const radianes = Math.atan2(vectorC[1] - vectorB[1], vectorC[0] - vectorB[0]) - Math.atan2(vectorA[1] - vectorB[1], vectorA[0] - vectorB[0]);
-
-  // Convierte los radianes a grados
-  let angulo = Math.abs((radianes * 180.0) / Math.PI);
-
-  // Ajusta el ángulo si es mayor a 180 grados
-  if (angulo > 180.0) {
-      angulo = 360 - angulo;
-  }
-
-  return angulo;
-}
-
-function onResultsPose(results) {
-  document.body.classList.add('loaded');
-  fpsControl.tick();
-
-  canvasCtx5.save();
-  canvasCtx5.clearRect(0, 0, out5.width, out5.height);
-  canvasCtx5.drawImage(results.image, 0, 0, out5.width, out5.height);
-  drawConnectors(canvasCtx5, results.poseLandmarks, POSE_CONNECTIONS, {
-    color: (data) => {
-      const x0 = out5.width * data.from.x;
-      const y0 = out5.height * data.from.y;
-      const x1 = out5.width * data.to.x;
-      const y1 = out5.height * data.to.y;
-
-      const z0 = clamp(data.from.z + 0.5, 0, 1);
-      const z1 = clamp(data.to.z + 0.5, 0, 1);
-
-      const gradient = canvasCtx5.createLinearGradient(x0, y0, x1, y1);
-      gradient.addColorStop(0, `rgba(0, ${255 * z0}, ${255 * (1 - z0)}, 1)`);
-      gradient.addColorStop(1.0, `rgba(0, ${255 * z1}, ${255 * (1 - z1)}, 1)`);
-      return gradient;
+        // append/get elements to the DOM
+        const canvas = document.getElementById("canvas");
+        canvas.width = size; canvas.height = size;
+        ctx = canvas.getContext("2d");
+        labelContainer = document.getElementById("label-container");
+        for (let i = 0; i < maxPredictions; i++) { // and class labels
+            labelContainer.appendChild(document.createElement("div"));
+        }
     }
-  });
 
+    async function loop(timestamp) {
+        webcam.update(); // update the webcam frame
+        await predict();
+        window.requestAnimationFrame(loop);
+    }
 
-  const hombro_izq = [
-    results.poseLandmarks[5].x,
-    results.poseLandmarks[5].y
-  ];
+    async function predict() {
+        // Prediction #1: run input through posenet
+        // estimatePose can take in an image, video or canvas html element
+        const { pose, posenetOutput } = await model.estimatePose(webcam.canvas);
+        // Prediction 2: run input through teachable machine classification model
+        const prediction = await model.predict(posenetOutput);
 
-  const codo_izq = [
-    results.poseLandmarks[6].x,
-    results.poseLandmarks[6].y
-  ];
-  const muñeca_izq = [
-    results.poseLandmarks[7].x,
-    results.poseLandmarks[7].y
-  ];
+        for (let i = 0; i < maxPredictions; i++) {
+            const classPrediction = prediction[i].className + ": -------> " + prediction[i].probability.toFixed(2);
+            console.log(prediction[i].className ==='Arriba' ? classPrediction : '')
+        }
 
-  const hombro_der = [
-    results.poseLandmarks[8].x,
-    results.poseLandmarks[8].y
-  ];
-  const codo_der = [
-    results.poseLandmarks[9].x,
-    results.poseLandmarks[9].y
-  ];
-  const muñeca_der = [
-    results.poseLandmarks[10].x,
-    results.poseLandmarks[10].y
-  ];
+        // finally draw the poses
+        drawPose(pose);
+    }
 
-
-
-  const angleLeft = calcularAngulo(hombro_izq, codo_izq, muñeca_izq);
-  const angleRight = calcularAngulo(hombro_der, codo_der, muñeca_der);
-  console.log(angleLeft)
-  // Realizar acciones basadas en los ángulos
-  if (angleRight > 160 && angleLeft > 160) {
-    // Realizar acciones cuando ambos ángulos son mayores a 160
-    console.log("Abajo");
-    stage = "abajo";
-  }
-
-  if ((angleRight < 30 && angleLeft < 30) && stage === 'abajo') {
-    // Realizar acciones cuando ambos ángulos son menores a 30 y la etapa es 'abajo'
-    console.log("Arriba");
-    contador++;
-    console.log(contador);
-    stage = 'arriba';
-  }
-
-  canvasCtx5.restore();
-}
-
-const pose = new Pose({
-  locateFile: (file) => {
-    return `https://cdn.jsdelivr.net/npm/@mediapipe/pose@0.2/${file}`;
-  }
-});
-pose.onResults(onResultsPose);
-
-const camera = new Camera(video5, {
-  onFrame: async () => {
-    await pose.send({ image: video5 });
-  },
-  width: 480,
-  height: 480
-});
-camera.start();
-
-new ControlPanel(controlsElement5, {
-  selfieMode: true,
-  upperBodyOnly: false,
-  smoothLandmarks: true,
-  minDetectionConfidence: 0.5,
-  minTrackingConfidence: 0.5
-})
-  .add([
-    new StaticText({ title: 'MediaPipe Pose' }),
-    fpsControl,
-    new Toggle({ title: 'Selfie Mode', field: 'selfieMode' }),
-    new Toggle({ title: 'Upper-body Only', field: 'upperBodyOnly' }),
-    new Toggle({ title: 'Smooth Landmarks', field: 'smoothLandmarks' }),
-    new Slider({
-      title: 'Min Detection Confidence',
-      field: 'minDetectionConfidence',
-      range: [0, 1],
-      step: 0.01
-    }),
-    new Slider({
-      title: 'Min Tracking Confidence',
-      field: 'minTrackingConfidence',
-      range: [0, 1],
-      step: 0.01
-    }),
-  ])
-  .on(options => {
-    video5.classList.toggle('selfie', options.selfieMode);
-    pose.setOptions(options);
-  });
+    function drawPose(pose) {
+        if (webcam.canvas) {
+            ctx.drawImage(webcam.canvas, 0, 0);
+            // draw the keypoints and skeleton
+            if (pose) {
+                const minPartConfidence = 0.5;
+                tmPose.drawKeypoints(pose.keypoints, minPartConfidence, ctx);
+                tmPose.drawSkeleton(pose.keypoints, minPartConfidence, ctx);
+            }
+        }
+    }
