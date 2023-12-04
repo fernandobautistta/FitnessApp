@@ -72,36 +72,84 @@
             class="flex items-center justify-evenly h-96 p-10 mb-2 rounded bg-gray-50 dark:bg-gray-800 shadow m-4 gap-4"
           >
             <canvas
-              class="w-full h-full bg-gray-300 object-cover p-5 bg-transparent rounded" id="canvas"
+              class="w-full h-full bg-gray-300 object-contain p-5 bg-transparent rounded" id="canvas"
             ></canvas>
 
             <!-- Aqui -->
-            <div id="label-container"></div>
-            <div class="loading">
-              <div class="spinner"></div>
+            <div id="label-container" class="hidden"></div>
+            
+            <div class="grid">
+              <button class="text-gray-900 p-10 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700" onclick="init('./js/train/ex_1/')">Levantamiento</button>
+              <button class="text-gray-900 p-10 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700" onclick="init('./js/train/ex_2/')">Entrenar</button>
+              <button class="text-gray-900 p-10 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700" onclick="init('./js/train/ex_3/')">Entrenar</button>         
             </div>
-            <div class="control5 hidden"></div>
-
-            <button id="run" class="text-gray-900 p-10 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700" onclick="init('./js/train/ex_1/')">Levantamiento</button>
-            <button id="run" class="text-gray-900 p-10 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700" onclick="init('./js/train/ex_2/')">Entrenar</button>
-            <button id="run" class="text-gray-900 p-10 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700" onclick="init('./js/train/ex_3/')">Entrenar</button>         
-          
           </div>
           <div class="grid grid-cols-3 gap-4 mb-2">
             <div
-              class="flex items-center justify-center rounded bg-gray-50 h-28 dark:bg-gray-800 shadow m-4"
+              class="flex flex-col items-center justify-center rounded bg-gray-50 h-28 dark:bg-gray-800 shadow m-4"
             >
-              <p class="text-2xl text-gray-400 dark:text-gray-500" id="levantamiento">Center</p>
+              <!-- Aqui va el code inicio-->
+              <div class="flex items-center w-full">
+                <div class="w-full max-w-screen-xl px-4 mx-auto lg:px-12">
+                  <!-- Start coding here -->
+                  <div class="relative overflow-hidden rounded-b-lg">
+                    <nav class="flex flex-row items-center justify-between p-4 gap-2" aria-label="Table navigation">
+                      <button id="stateOk" type="button" class="flex items-center justify-center px-4 py-2 text-sm font-medium text-white rounded-lg bg-red-300 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800">
+                        <i class="fa-solid fa-dumbbell"></i>
+                      </button>
+                      <p class="text-sm">
+                        <span class="font-normal text-gray-500 dark:text-gray-400">Total repeticiones:</span>
+                        <span class="font-semibold text-gray-900 dark:text-white" id="levantamiento">0</span>
+                      </p>
+                    </nav>
+                  </div>
+                </div>
+              </div>
+              <!-- Aqui va el code fin -->
             </div>
             <div
               class="flex items-center justify-center rounded bg-gray-50 h-28 dark:bg-gray-800 shadow m-4"
             >
-              <p class="text-2xl text-gray-400 dark:text-gray-500">Center</p>
+              <!-- Aqui va el code inicio-->
+              <div class="flex items-center w-full h-full">
+                <div class="w-full max-w-screen-xl px-4 mx-auto lg:px-12">
+                  <!-- Start coding here -->
+                  <div class="relative overflow-hidden rounded-b-lg">
+                    <nav class="flex flex-row items-center justify-between p-4 gap-2" aria-label="Table navigation">
+                      <button type="button" class="flex items-center justify-center px-4 py-2 text-sm font-medium text-white rounded-lg bg-red-300 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800">
+                        <i class="fa-solid fa-heart"></i>
+                      </button>
+                      <p class="text-sm">
+                        <span class="font-normal text-gray-500 dark:text-gray-400">Total repeticiones:</span>
+                        <span class="font-semibold text-gray-900 dark:text-white" id="levantamiento">0</span>
+                      </p>
+                    </nav>
+                  </div>
+                </div>
+              </div>
+              <!-- Aqui va el code fin -->
             </div>
             <div
               class="flex items-center justify-center rounded bg-gray-50 h-28 dark:bg-gray-800 shadow m-4"
             >
-              <p class="text-2xl text-gray-400 dark:text-gray-500">Center</p>
+              <!-- Aqui va el code inicio-->
+              <div class="flex items-center w-full">
+                <div class="w-full max-w-screen-xl px-4 mx-auto lg:px-12">
+                  <!-- Start coding here -->
+                  <div class="relative overflow-hidden rounded-b-lg">
+                    <nav class="flex flex-row items-center justify-between p-4 gap-2" aria-label="Table navigation">
+                      <button type="button" class="flex items-center justify-center px-4 py-2 text-sm font-medium text-white rounded-lg bg-red-300 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800">
+                        <i class="fa-solid fa-person-running"></i>
+                      </button>
+                      <p class="text-sm">
+                        <span class="font-normal text-gray-500 dark:text-gray-400">Total repeticiones:</span>
+                        <span class="font-semibold text-gray-900 dark:text-white" id="levantamiento">0</span>
+                      </p>
+                    </nav>
+                  </div>
+                </div>
+              </div>
+              <!-- Aqui va el code fin -->
             </div>
           </div>
           <div class="grid grid-cols-1 gap-4 mb-2">

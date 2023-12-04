@@ -1,6 +1,6 @@
 
     const levantamiento = document.getElementById("levantamiento")
-
+    const stateOk = document.getElementById("stateOk")
     // the link to your model provided by Teachable Machine export panel
     let model, webcam, ctx, labelContainer, maxPredictions;
     let state='Abajo';
@@ -50,7 +50,7 @@
         for (let i = 0; i < maxPredictions; i++) {
             const classPrediction = prediction[i].className + ": -------> " + prediction[i].probability.toFixed(2);
             
-            if(prediction[i].probability.toFixed(2) > 0.99) {
+            if(prediction[i].probability.toFixed(2) > 0.97) {
                 
                 /**
                  * ? Modelo basado en levantamiento -> Parte Luis
