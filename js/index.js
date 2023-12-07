@@ -5,9 +5,10 @@
 
     const stateOk = document.getElementById("stateOk")
     let model, webcam, ctx, labelContainer, maxPredictions;
+    
     let state='Abajo';
 
-    const differents = ['down', 'abajo', 'Class 1']
+    const differents = ['down', 'Abajo', 'Class 1']
     const contador = {
         'levantamiento' : 0, 
         'brazosHombros' : 0, 
@@ -50,7 +51,6 @@
 
         for (let i = 0; i < maxPredictions; i++) {
             if(prediction[i].probability.toFixed(2) > 0.97) {
-                
                 /**
                  * ? Modelo de establecimiento de contador
                  * @prediction.probability es el treshold manual
@@ -72,9 +72,9 @@
                         brazosHombros.innerHTML = contador.brazosHombros;
                     }
 
-                    if(prediction[i].className =='arriba') {
+                    if(prediction[i].className =='Arriba') {
                         contador.elevacionDehombros++;
-                        levantamiento.innerHTML = contador.elevacionDehombros;
+                        elevacionDehombros.innerHTML = contador.elevacionDehombros;
                     }
 
 
