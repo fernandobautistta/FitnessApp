@@ -22,7 +22,7 @@
         model = await tmPose.load(modelURL, metadataURL);
         maxPredictions = model.getTotalClasses();
 
-        const size = 200;
+        const size = 400;
         const flip = true; 
         webcam = new tmPose.Webcam(size, size, flip); 
         await webcam.setup(); 
@@ -32,6 +32,10 @@
         const canvas = document.getElementById("canvas");
         canvas.width = size; canvas.height = size;
         ctx = canvas.getContext("2d");
+        
+        /**
+         * ? No se utilizo, era para dibujar el contador
+         */
         labelContainer = document.getElementById("label-container");
         for (let i = 0; i < maxPredictions; i++) { 
             labelContainer.appendChild(document.createElement("div"));
