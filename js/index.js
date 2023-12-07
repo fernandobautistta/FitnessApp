@@ -50,7 +50,7 @@
         const prediction = await model.predict(posenetOutput);
 
         for (let i = 0; i < maxPredictions; i++) {
-            if(prediction[i].probability.toFixed(2) > 0.97) {
+            if(prediction[i].probability.toFixed(2) > 0.98) {
                 /**
                  * ? Modelo de establecimiento de contador
                  * @prediction.probability es el treshold manual
