@@ -10,6 +10,6 @@ Ninguno
 
 ## Integrantes
 
-Luis Fernando Bautista #20192031558
-Luis Armando Salgado #20202000514
-David Daniel Membreño #20202000754
+Luis Fernando Bautista #20192031558  
+Luis Armando Salgado #20202000514  
+David Daniel Membreño #20202000754  
