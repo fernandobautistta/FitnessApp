@@ -1,65 +1,83 @@
 
     const levantamiento = document.getElementById("levantamiento")
+    const brazosHombros = document.getElementById("brazosHombros")
+    const elevacionDehombros = document.getElementById("elevacionDehombros")
+
     const stateOk = document.getElementById("stateOk")
-    // the link to your model provided by Teachable Machine export panel
     let model, webcam, ctx, labelContainer, maxPredictions;
     let state='Abajo';
-    let contador = 0;
+
+    const differents = ['down', 'abajo', 'Class 1']
+    const contador = {
+        'levantamiento' : 0, 
+        'brazosHombros' : 0, 
+        'elevacionDehombros' : 0
+    }
 
     async function init(URL) {
         const modelURL = URL + "model.json";
         const metadataURL = URL + "metadata.json";
 
-        // load the model and metadata
-        // Refer to tmImage.loadFromFiles() in the API to support files from a file picker
-        // Note: the pose library adds a tmPose object to your window (window.tmPose)
         model = await tmPose.load(modelURL, metadataURL);
         maxPredictions = model.getTotalClasses();
 
-        // Convenience function to setup a webcam
         const size = 200;
-        const flip = true; // whether to flip the webcam
-        webcam = new tmPose.Webcam(size, size, flip); // width, height, flip
-        await webcam.setup(); // request access to the webcam
+        const flip = true; 
+        webcam = new tmPose.Webcam(size, size, flip); 
+        await webcam.setup(); 
         await webcam.play();
         window.requestAnimationFrame(loop);
 
-        // append/get elements to the DOM
         const canvas = document.getElementById("canvas");
         canvas.width = size; canvas.height = size;
         ctx = canvas.getContext("2d");
         labelContainer = document.getElementById("label-container");
-        for (let i = 0; i < maxPredictions; i++) { // and class labels
+        for (let i = 0; i < maxPredictions; i++) { 
             labelContainer.appendChild(document.createElement("div"));
         }
     }
 
     async function loop(timestamp) {
-        webcam.update(); // update the webcam frame
+        webcam.update(); 
         await predict();
         window.requestAnimationFrame(loop);
     }
 
     async function predict() {
-        // Prediction #1: run input through posenet
-        // estimatePose can take in an image, video or canvas html element
+
         const { pose, posenetOutput } = await model.estimatePose(webcam.canvas);
-        // Prediction 2: run input through teachable machine classification model
         const prediction = await model.predict(posenetOutput);
 
         for (let i = 0; i < maxPredictions; i++) {
-            const classPrediction = prediction[i].className + ": -------> " + prediction[i].probability.toFixed(2);
-            
             if(prediction[i].probability.toFixed(2) > 0.97) {
                 
                 /**
-                 * ? Modelo basado en levantamiento -> Parte Luis
+                 * ? Modelo de establecimiento de contador
                  * @prediction.probability es el treshold manual
                  */
 
-                if(state!==prediction[i].className && prediction[i].className!=='down'){
-                    contador++;
-                    levantamiento.innerText = contador
+                if(state!==prediction[i].className && !differents.includes(prediction[i].className)){
+                    
+                    /**
+                     * ? Un contador para cada clase
+                     */
+                    
+                    if(prediction[i].className =='up') {
+                        contador.levantamiento++;
+                        levantamiento.innerHTML = contador.levantamiento;
+                    }
+
+                    if(prediction[i].className =='Class 2' || prediction[i].className =='Class 3') {
+                        contador.brazosHombros++;
+                        brazosHombros.innerHTML = contador.brazosHombros;
+                    }
+
+                    if(prediction[i].className =='arriba') {
+                        contador.elevacionDehombros++;
+                        levantamiento.innerHTML = contador.elevacionDehombros;
+                    }
+
+
                 }
                 state = prediction[i].className
             }
