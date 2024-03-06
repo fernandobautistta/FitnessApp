@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ﻿# FitnessApp
 
 # Detección de Poses con MediaPipe - Tensorflow
@@ -13,3 +14,6 @@ Ninguno
 Luis Fernando Bautista #20192031558  
 Luis Armando Salgado #20202000514  
 David Daniel Membreño #20202000754  
+=======
+# FitnessApp
+>>>>>>> 3bed2d91a974dc41e530d03469c8e96b9894635a
